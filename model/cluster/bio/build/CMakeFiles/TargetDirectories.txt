@@ -1,7 +1,0 @@
-/home/yuanzhe/research/bio/build/CMakeFiles/install.dir
-/home/yuanzhe/research/bio/build/CMakeFiles/list_install_components.dir
-/home/yuanzhe/research/bio/build/CMakeFiles/rebuild_cache.dir
-/home/yuanzhe/research/bio/build/CMakeFiles/tool.dir
-/home/yuanzhe/research/bio/build/CMakeFiles/edit_cache.dir
-/home/yuanzhe/research/bio/build/CMakeFiles/install/strip.dir
-/home/yuanzhe/research/bio/build/CMakeFiles/install/local.dir

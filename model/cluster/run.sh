@@ -1,8 +1,8 @@
 #!/bin/bash
 
-lib_path=./bio/build/lib/libtool.a
-std_version=-std=c++17
-include_path=./bio/build/include
+std_version=-std=c++11
+cd density_src ; g++ density.cpp create_directory.cpp file_list.cpp string2vector.cpp trim.cpp -o density ${std_version} -lpthread -lstdc++fs -O3 ; cd -
+ln -s ./density_src/density ./density
 
 for DB_res_factor in 50
 do
