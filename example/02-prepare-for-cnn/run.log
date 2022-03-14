@@ -1,0 +1,146 @@
+example
+--->copy inpdb
+cp ../01-input/example.pdb ./processed/example.pdb
+---> get RNA part
+vmd -dispdev text -e 0-get_RNA_part.tcl -args ../01-input/example.pdb ./processed/example_RNA.pdb
+rlwrap: Command not found.
+/usr/local/lib/vmd/vmd_LINUXAMD64: /usr/lib/nvidia-418/libGL.so.1: no version information available (required by /usr/local/lib/vmd/vmd_LINUXAMD64)
+Info) VMD for LINUXAMD64, version 1.9.4a37 (August 27, 2019)
+Info) http://www.ks.uiuc.edu/Research/vmd/                         
+Info) Email questions and bug reports to vmd@ks.uiuc.edu           
+Info) Please include this reference in published work using VMD:   
+Info)    Humphrey, W., Dalke, A. and Schulten, K., `VMD - Visual   
+Info)    Molecular Dynamics', J. Molec. Graphics 1996, 14.1, 33-38.
+Info) -------------------------------------------------------------
+Info) Multithreading available, 32 CPUs detected.
+Info)   CPU features: SSE2 AVX AVX2 FMA 
+Info) Free system memory: 54GB (85%)
+Info) Creating CUDA device pool and initializing hardware...
+Info) Unable to load NVML library, GPU-CPU affinity unavailable.
+Info) Detected 1 available CUDA accelerator::
+Info) [0] GeForce GTX 1080 Ti  28 SM_6.1 1.6 GHz, 11GB RAM SP32 AE2 ZC
+Info) Detected 1 available TachyonL/OptiX ray tracing accelerator
+Info)   Compiling 1 OptiX shaders on 1 target GPU...
+Info) Dynamically loaded 3 plugins in directory:
+Info) /usr/local/lib/vmd/plugins/LINUXAMD64/molfile
+../01-input/example.pdb
+./processed/example_RNA.pdb
+Info) Using plugin pdb for structure file ../01-input/example.pdb
+Info) Using plugin pdb for coordinates from file ../01-input/example.pdb
+Info) Determining bond structure from distance search ...
+Info) Finished with coordinate file ../01-input/example.pdb.
+Info) Analyzing structure ...
+Info)    Atoms: 810
+Info)    Bonds: 907
+Info)    Angles: 0  Dihedrals: 0  Impropers: 0  Cross-terms: 0
+Info)    Bondtypes: 0  Angletypes: 0  Dihedraltypes: 0  Impropertypes: 0
+Info)    Residues: 38
+Info)    Waters: 0
+Info)    Segments: 1
+Info)    Fragments: 1   Protein: 0   Nucleic: 1
+0
+atomselect0
+Info) Opened coordinate file ./processed/example_RNA.pdb for writing.
+Info) Finished with coordinate file ./processed/example_RNA.pdb.
+Info) VMD for LINUXAMD64, version 1.9.4a37 (August 27, 2019)
+Info) Exiting normally.
+vmd > ---> remove altloc
+python 1-remove_altloc.py ./processed/example.pdb ./processed/example.pdb
+python 1-remove_altloc.py ./processed/example_RNA.pdb ./processed/example_RNA.pdb
+---> generate pdbqt
+python 2-generate_pdbqt.py ./processed/example.pdb ./processed/example.pdbqt rna true true
+setting PYTHONHOME environment
+usage: python *.py inpdb outpdbqt check_nphs_lps_waters(false or true) check_hydrogen(false or true)
+---> voxelization
+/home/yuanzhe/anaconda3/lib/python3.6/site-packages/htmd/molecule/util.py:666: NumbaPerformanceWarning: np.dot() is faster on contiguous arrays, called on (array(float32, 2d, A), array(float32, 2d, A))
+  covariance = np.dot(P.T, Q)
+/home/yuanzhe/anaconda3/lib/python3.6/site-packages/htmd/molecule/util.py:704: NumbaPerformanceWarning: np.dot() is faster on contiguous arrays, called on (array(float32, 2d, C), array(float32, 2d, A))
+  all1 = np.dot(all1, rot.T)
+ffevaluate module is in beta version
+
+Please cite HTMD: Doerr et al.(2016)JCTC,12,1845. https://dx.doi.org/10.1021/acs.jctc.6b00049
+
+HTMD Documentation at: https://www.htmd.org/docs/latest/
+
+New devel HTMD version (2.0.2 python[3.9,<3.10.0a0,3.8,<3.9.0a0,3.7,<3.8.0a0]) is available. You are currently on (1.13.10).There are several methods to update:    - Create a new conda env. using `conda create -n htmd2.0.2 htmd=2.0.2 -c acellera -c psi4`    - Create a brand new conda installation and run `conda install htmd -c acellera -c psi4`    - Run: `conda update htmd -c acellera -c psi4` (NOT RECOMMENDED)
+
+usage: python 3-voxelization.py inrnapdb inpdbqt save_folder
+example_RNA 1 1 G image non zero 13993 Mg non zero 0
+occupancies 12300 partial_charges 1693 
+example_RNA 1 2 G image non zero 17894 Mg non zero 0
+occupancies 15704 partial_charges 2190 
+example_RNA 1 3 A image non zero 21831 Mg non zero 0
+occupancies 19182 partial_charges 2649 
+example_RNA 1 4 U image non zero 25522 Mg non zero 0
+occupancies 22414 partial_charges 3108 
+example_RNA 1 5 A image non zero 25482 Mg non zero 0
+occupancies 22406 partial_charges 3076 
+example_RNA 1 6 C image non zero 24653 Mg non zero 0
+occupancies 21704 partial_charges 2949 
+example_RNA 1 7 A image non zero 24794 Mg non zero 0
+occupancies 21819 partial_charges 2975 
+example_RNA 1 8 C image non zero 28194 Mg non zero 0
+occupancies 24745 partial_charges 3449 
+example_RNA 1 9 A image non zero 31246 Mg non zero 0
+occupancies 27466 partial_charges 3780 
+example_RNA 1 10 A image non zero 27995 Mg non zero 0
+occupancies 24567 partial_charges 3428 
+example_RNA 1 11 G image non zero 28724 Mg non zero 0
+occupancies 25232 partial_charges 3492 
+example_RNA 1 12 A image non zero 26966 Mg non zero 0
+occupancies 23761 partial_charges 3205 
+example_RNA 1 13 G image non zero 26677 Mg non zero 0
+occupancies 23400 partial_charges 3277 
+example_RNA 1 14 U image non zero 17950 Mg non zero 0
+occupancies 15743 partial_charges 2207 
+example_RNA 1 15 G image non zero 18695 Mg non zero 0
+occupancies 16455 partial_charges 2240 
+example_RNA 1 16 A image non zero 16862 Mg non zero 0
+occupancies 14994 partial_charges 1868 
+example_RNA 1 17 U image non zero 23760 Mg non zero 0
+occupancies 20956 partial_charges 2804 
+example_RNA 1 18 U image non zero 29173 Mg non zero 0
+occupancies 25711 partial_charges 3462 
+example_RNA 1 19 G image non zero 30589 Mg non zero 0
+occupancies 26948 partial_charges 3641 
+example_RNA 1 20 A image non zero 21475 Mg non zero 0
+occupancies 18898 partial_charges 2577 
+example_RNA 1 21 A image non zero 20073 Mg non zero 0
+occupancies 17741 partial_charges 2332 
+example_RNA 1 22 A image non zero 38715 Mg non zero 0
+occupancies 34095 partial_charges 4620 
+example_RNA 1 23 C image non zero 35548 Mg non zero 0
+occupancies 31239 partial_charges 4309 
+example_RNA 1 24 U image non zero 20053 Mg non zero 0
+occupancies 17686 partial_charges 2367 
+example_RNA 1 25 A image non zero 20261 Mg non zero 0
+occupancies 17797 partial_charges 2464 
+example_RNA 1 26 A image non zero 31248 Mg non zero 0
+occupancies 27432 partial_charges 3816 
+example_RNA 1 27 G image non zero 28195 Mg non zero 0
+occupancies 24737 partial_charges 3458 
+example_RNA 1 28 U image non zero 29170 Mg non zero 0
+occupancies 25629 partial_charges 3541 
+example_RNA 1 29 C image non zero 26772 Mg non zero 0
+occupancies 23460 partial_charges 3312 
+example_RNA 1 30 U image non zero 24851 Mg non zero 0
+occupancies 21821 partial_charges 3030 
+example_RNA 1 31 G image non zero 30319 Mg non zero 0
+occupancies 26612 partial_charges 3707 
+example_RNA 1 32 U image non zero 26658 Mg non zero 0
+occupancies 23343 partial_charges 3315 
+example_RNA 1 33 G image non zero 24129 Mg non zero 0
+occupancies 21139 partial_charges 2990 
+example_RNA 1 34 U image non zero 23939 Mg non zero 0
+occupancies 21013 partial_charges 2926 
+example_RNA 1 35 A image non zero 23318 Mg non zero 0
+occupancies 20512 partial_charges 2806 
+example_RNA 1 36 U image non zero 21863 Mg non zero 0
+occupancies 19211 partial_charges 2652 
+example_RNA 1 37 C image non zero 18623 Mg non zero 0
+occupancies 16322 partial_charges 2301 
+example_RNA 1 38 C image non zero 14214 Mg non zero 0
+occupancies 12476 partial_charges 1738 
+--------------------------------------------------------------------------
+---> finish example
+##########################################

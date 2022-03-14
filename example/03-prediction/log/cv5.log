@@ -258,5 +258,5 @@ test_flag True
 log_dir ./log/cv5/
 test_result_dir ./test_result/cv5/
 test_data_dir ../02-prepare-for-cnn/image/temp_48_small_partial_charge_radius/
-Epoch: 40 | Loss: 0.012 | Time: 2022-03-13 19:25:20.071653 --TEST
+Epoch: 40 | Loss: 0.012 | Time: 2022-03-13 19:44:49.524116 --TEST
 ------------------------------------------------------------------------------------------------------------------------

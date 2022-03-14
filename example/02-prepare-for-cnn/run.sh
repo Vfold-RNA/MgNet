@@ -2,7 +2,6 @@
 
 rm -rf image/temp_48_small_partial_charge_radius/*
 rm -rf processed
-rm run.log
 for name in `cat ../01-input/pdb_list.txt`
 do
     echo $name
