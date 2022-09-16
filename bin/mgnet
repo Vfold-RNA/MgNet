@@ -1,0 +1,85 @@
+#!/bin/bash
+
+while getopts i:o:lrbh flag
+do
+    case "${flag}" in
+        i) in_rna=${OPTARG};;
+        o) out_dir=${OPTARG};;
+        l) load="true";;
+        r) remove="true";;
+        b) build="true";;
+        h) help="true";;
+    esac
+done
+
+if [ "${help}" != "" ]
+then
+    echo "Usage: "
+    echo "load image into docker                     -> mgnet -l"
+    echo "remove loaded image                        -> mgnet -r"
+    echo "run mgent (default out_dir is current dir) -> mgnet -i in_rna [-o out_dir]"
+    exit
+fi
+
+if [ "${MGNET_HOME}" == "" ]
+then
+    echo "environment varible MGNET_HOME has not been set"
+    exit
+fi
+
+build_name="mgnet/build:0.1"
+image_path="${MGNET_HOME}/image/MgNet-image.tar.gz"
+
+if [ "${build}" != "" ]
+then
+    echo "building MgNet image..."
+    cd ${MGNET_HOME}/image/packages && rm -rf MgNet.tar.gz && tar -czf MgNet.tar.gz MgNet
+    cd -
+    docker build -t ${build_name} -f ${MGNET_HOME}/image/Dockerfile ${MGNET_HOME}/image/packages/
+    docker save ${build_name} | gzip > ${image_path}
+    exit
+fi
+
+if [ "${load}" != "" ]
+then
+    echo "loading MgNet image..."
+    docker load < ${image_path}
+    exit
+fi
+
+if [ "${remove}" != "" ]
+then
+    echo "removing MgNet image loaded into docker..."
+    if [[ "$(docker images -q ${build_name} 2> /dev/null)" != "" ]]
+    then
+        docker image rm ${build_name}
+    fi
+    exit
+fi
+
+if [ "${out_dir}" == "" ]
+then
+    out_dir="${PWD}"
+fi
+
+echo "in_rna_path: ${in_rna}"
+echo "out_dir: ${out_dir}"
+
+if [ ! -f "${in_rna}" ]
+then
+    echo "in_rna -> ${in_rna} does not exist"
+    exit
+fi
+
+mkdir -p ${out_dir}
+if [ ! -d "${out_dir}" ]
+then
+    echo "out_dir -> ${out_dir} does not exist"
+    exit
+fi
+
+docker run --ipc=host -it --rm --gpus all --name=mgnet \
+       --mount type=bind,source=${in_rna},target=/tmp/${in_rna},readonly \
+       --mount type=bind,source=${out_dir},target=/mnt \
+       ${build_name} \
+       /bin/bash -c "mgnet.py -i /tmp/${in_rna} -o /mnt/ ; user_id=\$(ls -ld /mnt | awk '{print \$3}') ; chown \${user_id}:\${user_id} /mnt/*_model_*_prediction.pdb"
