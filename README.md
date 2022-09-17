@@ -84,6 +84,8 @@ sudo apt-get install nvidia-430
 `430` is the driver version.
 Or you can download the appropriate NVIDIA diver and execute the binary as sudo.
 
+> :point_right: installed NVIDIA driver should be compatible with CUDA Toolkit 10.1.
+
 #### 2.2 Reboot your machine and verify the installation with the following command
 ```
 nvidia-smi
