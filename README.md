@@ -2,10 +2,10 @@
 
 ## Platform Requirements (Tested)
 The following are tested system settings, newer hardware/software could also work but has not been tested.
-* GNU/Linux x86_64 (Ubuntu 16.04)
+* GNU/Linux x86_64 (Ubuntu 16.04 kernel 4.15.0-142-generic)
 * Docker (version 20.10.7, with NVIDIA Container Toolkit)
 * GPU NVIDIA GPU with Architecture >= Kepler or compute capability 3.0 (GeForce GTX 1080 Ti)
-* NVIDIA Linux drivers (450.191.01, NVIDIA Container Toolkit requries driver >= 418.81.07)
+* NVIDIA Linux drivers (430.64, NVIDIA Container Toolkit requries driver >= 418.81.07)
 
 ## Installation
 
@@ -42,7 +42,7 @@ Install a specific version using the version string from the second column, here
 sudo apt-get install \
      docker-ce=5:20.10.7~3-0~ubuntu-$(lsb_release -cs) \
      docker-ce-cli=5:20.10.7~3-0~ubuntu-$(lsb_release -cs) \
-     containerd.io docker-compose-plugin
+     containerd.io
 ```
 Start the Docker daemon:
 ```
@@ -73,44 +73,42 @@ The recommended way to install drivers is to use the package manager for your di
 > :point_right: For instructions on using your package manager to install drivers on system other than Ubuntu 16.04, follow the steps in this [guide](https://docs.nvidia.com/datacenter/tesla/tesla-installation-notes/index.html).
 
 #### 2.1 Install NVIDIA driver
-If NVIDIA driver is not pre-installed with your Ubuntu distribution,
-you can install it with the following command
+If NVIDIA driver is not pre-installed with your Ubuntu distribution, you can check your available drivers:
 ```
-sudo apt-get install nvidia-driver-450
+ubuntu-drivers devices
 ```
-`450` is the driver version.
+and install the driver with the following command (here I use nvidia-430):
+```
+sudo apt-get install nvidia-430
+```
+`430` is the driver version.
 Or you can download the appropriate NVIDIA diver and execute the binary as sudo.
 
-#### 2.2 Verify the installation with the following command
+#### 2.2 Reboot your machine and verify the installation with the following command
 ```
 nvidia-smi
 ```
 you should see similar output as the following:
 ```
 +-----------------------------------------------------------------------------+
-| NVIDIA-SMI 450.191.01   Driver Version: 450.191.01   CUDA Version: 11.0     |
+| NVIDIA-SMI 430.64       Driver Version: 430.64       CUDA Version: 10.1     |
 |-------------------------------+----------------------+----------------------+
 | GPU  Name        Persistence-M| Bus-Id        Disp.A | Volatile Uncorr. ECC |
 | Fan  Temp  Perf  Pwr:Usage/Cap|         Memory-Usage | GPU-Util  Compute M. |
-|                               |                      |               MIG M. |
 |===============================+======================+======================|
 |   0  GeForce GTX 108...  Off  | 00000000:0A:00.0 Off |                  N/A |
-| 26%   45C    P0    53W / 250W |      0MiB / 11176MiB |      0%      Default |
-|                               |                      |                  N/A |
+| 20%   40C    P0    57W / 250W |      1MiB / 11176MiB |      0%      Default |
 +-------------------------------+----------------------+----------------------+
 |   1  GeForce GTX 108...  Off  | 00000000:0B:00.0 Off |                  N/A |
-| 23%   41C    P0    52W / 250W |      0MiB / 11178MiB |      0%      Default |
-|                               |                      |                  N/A |
+| 16%   35C    P0    51W / 250W |      0MiB / 11178MiB |      0%      Default |
 +-------------------------------+----------------------+----------------------+
 |   2  GeForce GTX 108...  Off  | 00000000:41:00.0 Off |                  N/A |
-| 25%   43C    P0    52W / 250W |      0MiB / 11178MiB |      3%      Default |
-|                               |                      |                  N/A |
+| 20%   38C    P0    52W / 250W |      0MiB / 11178MiB |      3%      Default |
 +-------------------------------+----------------------+----------------------+
 
 +-----------------------------------------------------------------------------+
-| Processes:                                                                  |
-|  GPU   GI   CI        PID   Type   Process name                  GPU Memory |
-|        ID   ID                                                   Usage      |
+| Processes:                                                       GPU Memory |
+|  GPU       PID   Type   Process name                             Usage      |
 |=============================================================================|
 |  No running processes found                                                 |
 +-----------------------------------------------------------------------------+
@@ -146,7 +144,28 @@ docker run --rm --gpus all nvidia/cuda:10.1-base-ubuntu18.04 nvidia-smi
 ```
 This should result in a console output shown below:
 ```
-xxx
++-----------------------------------------------------------------------------+
+| NVIDIA-SMI 430.64       Driver Version: 430.64       CUDA Version: 10.1     |
+|-------------------------------+----------------------+----------------------+
+| GPU  Name        Persistence-M| Bus-Id        Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp  Perf  Pwr:Usage/Cap|         Memory-Usage | GPU-Util  Compute M. |
+|===============================+======================+======================|
+|   0  GeForce GTX 108...  Off  | 00000000:0A:00.0 Off |                  N/A |
+| 22%   41C    P0    53W / 250W |      0MiB / 11176MiB |      0%      Default |
++-------------------------------+----------------------+----------------------+
+|   1  GeForce GTX 108...  Off  | 00000000:0B:00.0 Off |                  N/A |
+| 16%   36C    P0    51W / 250W |      0MiB / 11178MiB |      0%      Default |
++-------------------------------+----------------------+----------------------+
+|   2  GeForce GTX 108...  Off  | 00000000:41:00.0 Off |                  N/A |
+| 22%   40C    P0    52W / 250W |      0MiB / 11178MiB |      3%      Default |
++-------------------------------+----------------------+----------------------+
+
++-----------------------------------------------------------------------------+
+| Processes:                                                       GPU Memory |
+|  GPU       PID   Type   Process name                             Usage      |
+|=============================================================================|
+|  No running processes found                                                 |
++-----------------------------------------------------------------------------+
 ```
 Now you are ready to run the MgNet in Docker!
 
@@ -159,6 +178,7 @@ git clone https://github.com/Vfold-RNA/MgNet.git /home/${USER}/MgNet
 ```
 ```
 echo "export MGNET_HOME=/home/${USER}/MgNet/" >> /home/${USER}/.bashrc && \
+echo "export PATH=/home/${USER}/MgNet/bin:${PATH}" >> /home/${USER}/.bashrc && \
 source /home/${USER}/.bashrc
 ```
 
@@ -169,7 +189,7 @@ for n in a b c d ; do wget https://github.com/Vfold-RNA/MgNet/releases/download/
 ```
 Merge these parts into a single image:
 ```
-cat ${MGNET_HOME}/image/MgNet-image.tar.gz.parta* > ${MGNET_HOME}/image/MgNet-image.tar.gz
+cat ${MGNET_HOME}/image/MgNet-image.tar.gz.parta* > ${MGNET_HOME}/image/MgNet-image.tar.gz && rm ${MGNET_HOME}/image/MgNet-image.tar.gz.parta*
 ```
 
 ### 4. Check MgNet options
@@ -187,6 +207,8 @@ mgnet -l
 mgnet -i ${MGNET_HOME}/example/example.pdb -o ${MGNET_HOME}/example/
 ```
 The ions predicted by 5 trained models will be saved into `${MGNET_HOME}/example/` as `xxxx_model_y_prediction.pdb`, where `xxxx` and `y` represents input pdb name and model number, respectively.
+
+> :warning: **CUDA Toolkit: You may need to install CUDA Toolkit 10.1 if the error message contains `RuntimeError: Attempting to deserialize object on a CUDA device but torch.cuda.is_available() is False`.**
 
 ### 5. Remove loaded MgNet image in Docker
 ```
