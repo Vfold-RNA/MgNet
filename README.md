@@ -66,7 +66,7 @@ This command downloads a test image and runs it in a container. When the contain
 
 
 ### 2. Setup NVIDIA driver
-The recommended way to install drivers is to use the package manager for your distribution but other installer mechanisms are also available (e.g. by downloading `.run` installers from NVIDIA driver [Downloads](https://www.nvidia.com/Download/index.aspx?lang=en-us)).
+The recommended way to install drivers is to use the package manager for your distribution but other installer mechanisms are also available (e.g., by downloading `.run` installers from NVIDIA driver [Downloads](https://www.nvidia.com/Download/index.aspx?lang=en-us)).
 
 > :point_right: For instructions on using your package manager to install drivers on system other than Ubuntu 16.04, follow the steps in this [guide](https://docs.nvidia.com/datacenter/tesla/tesla-installation-notes/index.html).
 
@@ -74,7 +74,7 @@ The recommended way to install drivers is to use the package manager for your di
 If NVIDIA driver is not pre-installed with your Ubuntu distribution,
 you can install it with the following command
 ```
-$ sudo apt install nvidia-450
+$ sudo apt-get install nvidia-driver-450
 ```
 `450` is the driver version.
 Or you can download the appropriate NVIDIA diver and execute the binary as sudo.
@@ -83,7 +83,7 @@ Or you can download the appropriate NVIDIA diver and execute the binary as sudo.
 ```
 $ nvidia-smi
 ```
-you shold see similar output as the following:
+you should see similar output as the following:
 ```
 +-----------------------------------------------------------------------------+
 | NVIDIA-SMI 450.191.01   Driver Version: 450.191.01   CUDA Version: 11.0     |
@@ -117,7 +117,7 @@ you shold see similar output as the following:
 
 ### 3. Setup NVIDIA Container Toolkit
 
-> :point_right: Please refer to official [install guide](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html#docker) for a detailed instruction.
+> :point_right: Please refer to official [install guide](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html#docker) for a detailed instruction on systems other than the tested ones.
 
 #### 3.1 Setup the package repository and the GPG key
 ```
@@ -152,13 +152,14 @@ Now you are ready to run the MgNet in Docker!
 ### 1. Clone this repository on your local machine, and set environment variable
 ```
 $ git clone https://github.com/Vfold-RNA/MgNet.git /home/${USER}/MgNet
-$ echo "export MGNET_HOME=/home/${USER}/MgNet" >> /home/${USER}/.bashrc
+$ echo "export MGNET_HOME=/home/${USER}/MgNet/" >> /home/${USER}/.bashrc
 $ source /home/${USER}/.bashrc
 ```
 
-### 2. Download MgNet docker image
+### 2. Download MgNet docker image parts and merge them into a single image
 ```
-$ wget xxx -O /home/${USER}/MgNet/image/MgNet-image.tar.gz
+$ for n in a b c d ; do wget https://github.com/Vfold-RNA/MgNet/releases/download/stable/MgNet-image.tar.gz.parta${n} -O /home/${USER}/MgNet/image/MgNet-image.tar.gz.parta${n} ; done
+$ cat /home/${USER}/MgNet/image/MgNet-image.tar.gz.parta* > /home/${USER}/MgNet/image/MgNet-image.tar.gz
 ```
 
 ### 4. Check MgNet options

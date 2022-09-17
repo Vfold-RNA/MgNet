@@ -10,5 +10,6 @@ image/packages/Miniconda3-py38_4.10.3-Linux-x86_64.sh
 image/packages/packed_conda_base.tar.gz
 image/packages/vmd-1.9.4a57.bin.LINUXAMD64-CUDA102-OptiX650-OSPRay185.opengl.tar.gz
 image/MgNet-image.tar.gz
+image/MgNet-image.tar.gz.part*
 
 example/*_prediction.pdb

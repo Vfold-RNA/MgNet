@@ -37,6 +37,7 @@ then
     cd -
     docker build -t ${build_name} -f ${MGNET_HOME}/image/Dockerfile ${MGNET_HOME}/image/packages/
     docker save ${build_name} | gzip > ${image_path}
+    split -b 1G ${image_path} "${image_path}.part"
     exit
 fi
 
