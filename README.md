@@ -15,52 +15,54 @@ The following are tested system settings, newer hardware/software could also wor
 
 #### 1.1 Update the apt package index and install packages to allow apt to use a repository over HTTPS
 ```
-$ sudo apt-get update
-$ sudo apt-get install ca-certificates curl gnupg lsb-release
+sudo apt-get update
+```
+```
+sudo apt-get install ca-certificates curl gnupg lsb-release
 ```
 
 #### 1.2 Add Docker’s official GPG key and set up the repository
 ```
-$ sudo mkdir -p /etc/apt/keyrings
-$ curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
-$ echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+sudo mkdir -p /etc/apt/keyrings && \
+     curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg && \
+     echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
 ```
 
 #### 1.3 Install Docker Engine, containerd, and Docker Compose
 Update the apt package index:
 ```
-$ sudo apt-get update
+sudo apt-get update
 ```
 List the versions available in your repo:
 ```
-$ apt-cache madison docker-ce
+apt-cache madison docker-ce
 ```
 Install a specific version using the version string from the second column, here we use version 20.10.7:
 ```
-$ sudo apt-get install \
-  docker-ce=5:20.10.7~3-0~ubuntu-$(lsb_release -cs) \
-  docker-ce-cli=5:20.10.7~3-0~ubuntu-$(lsb_release -cs) \
-  containerd.io docker-compose-plugin
+sudo apt-get install \
+     docker-ce=5:20.10.7~3-0~ubuntu-$(lsb_release -cs) \
+     docker-ce-cli=5:20.10.7~3-0~ubuntu-$(lsb_release -cs) \
+     containerd.io docker-compose-plugin
 ```
 Start the Docker daemon:
 ```
-$ sudo service docker start
+sudo service docker start
 ```
 
 #### 1.4 Create the docker group and add your user to the group
 Create the docker group:
 ```
-$ sudo groupadd docker
+sudo groupadd docker
 ```
 Add your user to the docker group:
 ```
-$ sudo usermod -aG docker $USER
+sudo usermod -aG docker $USER
 ```
 > :point_right: Note: **You need to start a new session to update the groups.**
 
 #### 1.5 Verify that Docker Engine is installed correctly
 ```
-$ docker run hello-world
+docker run hello-world
 ```
 This command downloads a test image and runs it in a container. When the container runs, it prints a message and exits.
 
@@ -74,14 +76,14 @@ The recommended way to install drivers is to use the package manager for your di
 If NVIDIA driver is not pre-installed with your Ubuntu distribution,
 you can install it with the following command
 ```
-$ sudo apt-get install nvidia-driver-450
+sudo apt-get install nvidia-driver-450
 ```
 `450` is the driver version.
 Or you can download the appropriate NVIDIA diver and execute the binary as sudo.
 
 #### 2.2 Verify the installation with the following command
 ```
-$ nvidia-smi
+nvidia-smi
 ```
 you should see similar output as the following:
 ```
@@ -121,7 +123,7 @@ you should see similar output as the following:
 
 #### 3.1 Setup the package repository and the GPG key
 ```
-$ distribution=$(. /etc/os-release;echo $ID$VERSION_ID) \
+distribution=$(. /etc/os-release;echo $ID$VERSION_ID) \
   && curl -fsSL https://nvidia.github.io/libnvidia-container/gpgkey | sudo gpg --dearmor -o /usr/share/keyrings/nvidia-container-toolkit-keyring.gpg \
   && curl -s -L https://nvidia.github.io/libnvidia-container/$distribution/libnvidia-container.list | \
   sed 's#deb https://#deb [signed-by=/usr/share/keyrings/nvidia-container-toolkit-keyring.gpg] https://#g' | \
@@ -129,16 +131,18 @@ $ distribution=$(. /etc/os-release;echo $ID$VERSION_ID) \
 ```
 #### 3.2 Install the nvidia-docker2 package (and dependencies)
 ```
-$ sudo apt-get update
-$ sudo apt-get install -y nvidia-docker2
+sudo apt-get update
+```
+```
+sudo apt-get install -y nvidia-docker2
 ```
 #### 3.3 Restart the Docker daemon
 ```
-$ sudo systemctl restart docker
+sudo systemctl restart docker
 ```
 #### 3.4 Test that NVIDIA runs in Docker
 ```
-$ docker run --rm --gpus all nvidia/cuda:10.1-base-ubuntu18.04 nvidia-smi
+docker run --rm --gpus all nvidia/cuda:10.1-base-ubuntu18.04 nvidia-smi
 ```
 This should result in a console output shown below:
 ```
@@ -151,36 +155,42 @@ Now you are ready to run the MgNet in Docker!
 
 ### 1. Clone this repository on your local machine, and set environment variable
 ```
-$ git clone https://github.com/Vfold-RNA/MgNet.git /home/${USER}/MgNet
-$ echo "export MGNET_HOME=/home/${USER}/MgNet/" >> /home/${USER}/.bashrc
-$ source /home/${USER}/.bashrc
+git clone https://github.com/Vfold-RNA/MgNet.git /home/${USER}/MgNet
+```
+```
+echo "export MGNET_HOME=/home/${USER}/MgNet/" >> /home/${USER}/.bashrc && \
+source /home/${USER}/.bashrc
 ```
 
 ### 2. Download MgNet docker image parts and merge them into a single image
+Download parts of the released image:
 ```
-$ for n in a b c d ; do wget https://github.com/Vfold-RNA/MgNet/releases/download/stable/MgNet-image.tar.gz.parta${n} -O /home/${USER}/MgNet/image/MgNet-image.tar.gz.parta${n} ; done
-$ cat /home/${USER}/MgNet/image/MgNet-image.tar.gz.parta* > /home/${USER}/MgNet/image/MgNet-image.tar.gz
+for n in a b c d ; do wget https://github.com/Vfold-RNA/MgNet/releases/download/stable/MgNet-image.tar.gz.parta${n} -O ${MGNET_HOME}/image/MgNet-image.tar.gz.parta${n} ; done
+```
+Merge these parts into a single image:
+```
+cat ${MGNET_HOME}/image/MgNet-image.tar.gz.parta* > ${MGNET_HOME}/image/MgNet-image.tar.gz
 ```
 
 ### 4. Check MgNet options
 ```
-$ mgnet -h
+mgnet -h
 ```
 
 ### 3. Load MgNet image into Docker
 ```
-$ mgnet -l
+mgnet -l
 ```
 
 ### 4. Run MgNet for an example case
 ```
-$ mgnet -i /home/${USER}/MgNet/example/example.pdb -o /home/${USER}/MgNet/example/
+mgnet -i ${MGNET_HOME}/example/example.pdb -o ${MGNET_HOME}/example/
 ```
-The ions predicted by 5 trained models will be saved into `/home/${USER}/MgNet/example/` as `xxxx_model_y_prediction.pdb`, where `xxxx` and `y` represents input pdb name and model number, respectively.
+The ions predicted by 5 trained models will be saved into `${MGNET_HOME}/example/` as `xxxx_model_y_prediction.pdb`, where `xxxx` and `y` represents input pdb name and model number, respectively.
 
 ### 5. Remove loaded MgNet image in Docker
 ```
-$ mgnet -r
+mgnet -r
 ```
 
 ## Software References
