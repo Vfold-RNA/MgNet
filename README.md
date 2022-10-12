@@ -227,12 +227,12 @@ mgnet -r
 
 [1] Humphrey, W., Dalke, A., and Schulten, K. (1996). Vmd: Visual molecular dynamics. Journal of Molecular Graphics, 14(1):33–38.
 
-[2] Cock, P. J. A., Antao, T., Chang, J. T., Chapman, B. A., Cox, C. J., Dalke, A., Friedberg, I., Hamelryck, T., Kauﬀ, F., Wilczynski, B., and de Hoon, M. J. L. (2009). Biopython: freely available Python tools for computational molecular biology and bioinformatics. Bioinformatics, 25(11):1422–1423.
+[2] Cock, P. J. A., Antao, T., Chang, J. T., Chapman, B. A., Cox, C. J., Dalke, A., Friedberg, I., Hamelryck, T., Kauff, F., Wilczynski, B., and de Hoon, M. J. L. (2009). Biopython: freely available Python tools for computational molecular biology and bioinformatics. Bioinformatics, 25(11):1422–1423.
 
 [3] Morris, G. M., Huey, R., Lindstrom, W., Sanner, M. F., Belew, R. K., Goodsell, D. S., and Olson, A. J. (2009). Autodock4 and autodocktools4: Automated docking with selective receptor ﬂexibility. Journal of Computational Chemistry, 30(16):2785–2791.
 
-[4] Paszke, A., Gross, S., Massa, F., Lerer, A., Bradbury, J., Chanan, G., Killeen, T., Lin, Z., Gimelshein, N., Antiga, L., Desmaison, A., Kopf, A., Yang, E., DeVito, Z., Raison, M., Tejani, A., Chilamkurthy, S., Steiner, B., Fang, L., Bai, J., and Chintala, S. (2019). Pytorch: An imperative style, high-performance deep learning library. In Wallach, H., Larochelle, H., Beygelzimer, A., d'Alch´e-Buc, F., Fox, E., and Garnett, R., editors, Advances in Neural Information Processing Systems, volume 32. Curran Associates, Inc.
+[4] Paszke, A., Gross, S., Massa, F., Lerer, A., Bradbury, J., Chanan, G., Killeen, T., Lin, Z., Gimelshein, N., Antiga, L., Desmaison, A., Köpf, A., Yang, E., DeVito, Z., Raison, M., Tejani, A., Chilamkurthy, S., Steiner, B., Fang, L., Bai, J., and Chintala, S. (2019). Pytorch: An imperative style, high-performance deep learning library. Advances in Neural Information Processing Systems, volume 32. Curran Associates, Inc.
 
-[5] Doerr, S., Harvey, M. J., No´e, F., and De Fabritiis, G. (2016). Htmd: High-throughput molecular dynamics for molecular discovery. Journal of Chemical Theory and Computation, 12(4):18451852. PMID: 26949976.
+[5] Doerr, S., Harvey, M. J., Noé, F., and De Fabritiis, G. (2016). HTMD: High-throughput molecular dynamics for molecular discovery. Journal of Chemical Theory and Computation, 12(4):18451852. PMID: 26949976.
 
-[6] MgNet: to be published.
+[6] Zhou, Y., and Chen, S.J. (2022). Graph deep learning locates magnesium ions in RNA. QRB Discovery, pp.1-22. doi:10.1017/qrd.2022.17
