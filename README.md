@@ -185,9 +185,15 @@ source /home/${USER}/.bashrc
 ```
 
 ### 2. Download MgNet docker image parts and merge them into a single image
-Download parts of the released image:
+Download parts of the released image and checksum.txt:
 ```
 for n in a b c d ; do wget https://github.com/Vfold-RNA/MgNet/releases/download/stable/MgNet-image.tar.gz.parta${n} -O ${MGNET_HOME}/image/MgNet-image.tar.gz.parta${n} ; done
+wget https://github.com/Vfold-RNA/MgNet/releases/download/stable/checksum.txt -O ${MGNET_HOME}/image/checksum.txt
+```
+Check the integrity of the files:
+```
+cd ${MGNET_HOME}/image/
+sha256sum --check checksum.txt
 ```
 Merge these parts into a single image:
 ```
