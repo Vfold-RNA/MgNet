@@ -12,5 +12,3 @@ image/packages/vmd-1.9.4a57.bin.LINUXAMD64-CUDA102-OptiX650-OSPRay185.opengl.tar
 image/MgNet-image.tar.gz
 image/MgNet-image.tar.gz.part*
 image/checksum.txt
-
-example/*_prediction.pdb

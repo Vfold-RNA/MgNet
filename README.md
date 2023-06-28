@@ -2,54 +2,20 @@
 
 ## Platform Requirements (Tested)
 The following are tested system settings, newer hardware/software could also work but has not been tested.
-* GNU/Linux x86_64 (Ubuntu 16.04 kernel 4.15.0-142-generic)
-* Docker (version 20.10.7, with NVIDIA Container Toolkit)
-* GPU NVIDIA GPU with Architecture >= Kepler or compute capability 3.0 (GeForce GTX 1080 Ti)
-* NVIDIA Linux drivers (430.64, NVIDIA Container Toolkit requries driver >= 418.81.07)
+* CPU (AMD Ryzen 9 7900X 12-Core Processor)
+* GPU (NVIDIA GeForce GTX 1080)
+* GNU/Linux x86_64 (Ubuntu Server 22.04.2 LTS kernel 5.15.0-75-generic)
+* Docker (Docker version 24.0.2, build cb74dfc)
+* NVIDIA Driver (Version 530.41.03)
 
 ## Installation
 
 ### 1. Setup Docker
 
-> :point_right: Please refer to official [install guide](https://docs.docker.com/engine/install/) for installing Docker on systems other than the tested ones.
+#### 1.1 Install Docker
+> :point_right: Please refer to official [install guide](https://docs.docker.com/engine/install/) for installing Docker.
 
-#### 1.1 Update the apt package index and install packages to allow apt to use a repository over HTTPS
-```
-sudo apt-get update
-```
-```
-sudo apt-get install ca-certificates curl gnupg lsb-release
-```
-
-#### 1.2 Add Docker’s official GPG key and set up the repository
-```
-sudo mkdir -p /etc/apt/keyrings && \
-     curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg && \
-     echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
-```
-
-#### 1.3 Install Docker Engine, containerd, and Docker Compose
-Update the apt package index:
-```
-sudo apt-get update
-```
-List the versions available in your repo:
-```
-apt-cache madison docker-ce
-```
-Install a specific version using the version string from the second column, here we use version 20.10.7:
-```
-sudo apt-get install \
-     docker-ce=5:20.10.7~3-0~ubuntu-$(lsb_release -cs) \
-     docker-ce-cli=5:20.10.7~3-0~ubuntu-$(lsb_release -cs) \
-     containerd.io
-```
-Start the Docker daemon:
-```
-sudo service docker start
-```
-
-#### 1.4 Create the docker group and add your user to the group
+#### 1.2 Create the docker group and add your user to the group
 Create the docker group:
 ```
 sudo groupadd docker
@@ -60,7 +26,7 @@ sudo usermod -aG docker $USER
 ```
 > :point_right: Note: **You need to start a new session to update the groups.**
 
-#### 1.5 Verify that Docker Engine is installed correctly
+#### 1.3 Verify that Docker Engine is installed correctly
 ```
 docker run hello-world
 ```
@@ -70,19 +36,7 @@ This command downloads a test image and runs it in a container. When the contain
 ### 2. Setup NVIDIA driver
 The recommended way to install drivers is to use the package manager for your distribution but other installer mechanisms are also available (e.g., by downloading `.run` installers from NVIDIA driver [Downloads](https://www.nvidia.com/Download/index.aspx?lang=en-us)).
 
-> :point_right: For instructions on using your package manager to install drivers on system other than Ubuntu 16.04, follow the steps in this [guide](https://docs.nvidia.com/datacenter/tesla/tesla-installation-notes/index.html).
-
 #### 2.1 Install NVIDIA driver
-If NVIDIA driver is not pre-installed with your Ubuntu distribution, you can check your available drivers:
-```
-ubuntu-drivers devices
-```
-and install the driver with the following command (here I use nvidia-430):
-```
-sudo apt-get install nvidia-430
-```
-`430` is the driver version.
-Or you can download the appropriate NVIDIA diver and execute the binary as sudo.
 
 > :point_right: installed NVIDIA driver should be compatible with CUDA Toolkit 10.1.
 
@@ -92,82 +46,58 @@ nvidia-smi
 ```
 you should see similar output as the following:
 ```
-+-----------------------------------------------------------------------------+
-| NVIDIA-SMI 430.64       Driver Version: 430.64       CUDA Version: 10.1     |
-|-------------------------------+----------------------+----------------------+
-| GPU  Name        Persistence-M| Bus-Id        Disp.A | Volatile Uncorr. ECC |
-| Fan  Temp  Perf  Pwr:Usage/Cap|         Memory-Usage | GPU-Util  Compute M. |
-|===============================+======================+======================|
-|   0  GeForce GTX 108...  Off  | 00000000:0A:00.0 Off |                  N/A |
-| 20%   40C    P0    57W / 250W |      1MiB / 11176MiB |      0%      Default |
-+-------------------------------+----------------------+----------------------+
-|   1  GeForce GTX 108...  Off  | 00000000:0B:00.0 Off |                  N/A |
-| 16%   35C    P0    51W / 250W |      0MiB / 11178MiB |      0%      Default |
-+-------------------------------+----------------------+----------------------+
-|   2  GeForce GTX 108...  Off  | 00000000:41:00.0 Off |                  N/A |
-| 20%   38C    P0    52W / 250W |      0MiB / 11178MiB |      3%      Default |
-+-------------------------------+----------------------+----------------------+
++---------------------------------------------------------------------------------------+
+| NVIDIA-SMI 530.41.03              Driver Version: 530.41.03    CUDA Version: 12.1     |
+|-----------------------------------------+----------------------+----------------------+
+| GPU  Name                  Persistence-M| Bus-Id        Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp  Perf            Pwr:Usage/Cap|         Memory-Usage | GPU-Util  Compute M. |
+|                                         |                      |               MIG M. |
+|=========================================+======================+======================|
+|   0  NVIDIA GeForce GTX 1080         Off| 00000000:01:00.0 Off |                  N/A |
+|  0%   37C    P8                8W / 215W|      2MiB /  8192MiB |      0%      Default |
+|                                         |                      |                  N/A |
++-----------------------------------------+----------------------+----------------------+
 
-+-----------------------------------------------------------------------------+
-| Processes:                                                       GPU Memory |
-|  GPU       PID   Type   Process name                             Usage      |
-|=============================================================================|
-|  No running processes found                                                 |
-+-----------------------------------------------------------------------------+
++---------------------------------------------------------------------------------------+
+| Processes:                                                                            |
+|  GPU   GI   CI        PID   Type   Process name                            GPU Memory |
+|        ID   ID                                                             Usage      |
+|=======================================================================================|
+|  No running processes found                                                           |
++---------------------------------------------------------------------------------------+
 ```
-> :warning: **Secure Boot: If you want to install the NVIDIA driver with UEFI Secure Boot enabled, checkout NVIDIA's official guide.**
 
-### 3. Setup NVIDIA Container Toolkit
+### 3. Setup Docker to access an NVIDIA GPU
 
-> :point_right: Please refer to official [install guide](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html#docker) for a detailed instruction on systems other than the tested ones.
+#### 3.1 Install NVIDIA-container-runtime
 
-#### 3.1 Setup the package repository and the GPG key
-```
-distribution=$(. /etc/os-release;echo $ID$VERSION_ID) \
-  && curl -fsSL https://nvidia.github.io/libnvidia-container/gpgkey | sudo gpg --dearmor -o /usr/share/keyrings/nvidia-container-toolkit-keyring.gpg \
-  && curl -s -L https://nvidia.github.io/libnvidia-container/$distribution/libnvidia-container.list | \
-  sed 's#deb https://#deb [signed-by=/usr/share/keyrings/nvidia-container-toolkit-keyring.gpg] https://#g' | \
-  sudo tee /etc/apt/sources.list.d/nvidia-container-toolkit.list
-```
-#### 3.2 Install the nvidia-docker2 package (and dependencies)
-```
-sudo apt-get update
-```
-```
-sudo apt-get install -y nvidia-docker2
-```
-#### 3.3 Restart the Docker daemon
-```
-sudo systemctl restart docker
-```
-#### 3.4 Test that NVIDIA runs in Docker
-```
-docker run --rm --gpus all nvidia/cuda:10.1-base-ubuntu18.04 nvidia-smi
-```
-This should result in a console output shown below:
-```
-+-----------------------------------------------------------------------------+
-| NVIDIA-SMI 430.64       Driver Version: 430.64       CUDA Version: 10.1     |
-|-------------------------------+----------------------+----------------------+
-| GPU  Name        Persistence-M| Bus-Id        Disp.A | Volatile Uncorr. ECC |
-| Fan  Temp  Perf  Pwr:Usage/Cap|         Memory-Usage | GPU-Util  Compute M. |
-|===============================+======================+======================|
-|   0  GeForce GTX 108...  Off  | 00000000:0A:00.0 Off |                  N/A |
-| 22%   41C    P0    53W / 250W |      0MiB / 11176MiB |      0%      Default |
-+-------------------------------+----------------------+----------------------+
-|   1  GeForce GTX 108...  Off  | 00000000:0B:00.0 Off |                  N/A |
-| 16%   36C    P0    51W / 250W |      0MiB / 11178MiB |      0%      Default |
-+-------------------------------+----------------------+----------------------+
-|   2  GeForce GTX 108...  Off  | 00000000:41:00.0 Off |                  N/A |
-| 22%   40C    P0    52W / 250W |      0MiB / 11178MiB |      3%      Default |
-+-------------------------------+----------------------+----------------------+
+> :point_right: Please refer to official [install guide 1](https://docs.docker.com/config/containers/resource_constraints/#access-an-nvidia-gpu) and [install guide 2](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/install-guide.html#setting-up-nvidia-container-toolkit). And remember to configure the Docker daemon to recognize the NVIDIA Container Runtime and then restart the Docker daemon.
 
-+-----------------------------------------------------------------------------+
-| Processes:                                                       GPU Memory |
-|  GPU       PID   Type   Process name                             Usage      |
-|=============================================================================|
-|  No running processes found                                                 |
-+-----------------------------------------------------------------------------+
+#### 3.2 A working setup can be tested by running a base CUDA container
+```
+docker run -it --rm --gpus all nvidia/cuda:10.1-base-ubuntu18.04 nvidia-smi
+```
+This should result in a console output similar as the one shown below:
+```
++---------------------------------------------------------------------------------------+
+| NVIDIA-SMI 530.41.03              Driver Version: 530.41.03    CUDA Version: 12.1     |
+|-----------------------------------------+----------------------+----------------------+
+| GPU  Name                  Persistence-M| Bus-Id        Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp  Perf            Pwr:Usage/Cap|         Memory-Usage | GPU-Util  Compute M. |
+|                                         |                      |               MIG M. |
+|=========================================+======================+======================|
+|   0  NVIDIA GeForce GTX 1080         Off| 00000000:01:00.0 Off |                  N/A |
+|  0%   37C    P8                8W / 215W|      2MiB /  8192MiB |      0%      Default |
+|                                         |                      |                  N/A |
++-----------------------------------------+----------------------+----------------------+
+
++---------------------------------------------------------------------------------------+
+| Processes:                                                                            |
+|  GPU   GI   CI        PID   Type   Process name                            GPU Memory |
+|        ID   ID                                                             Usage      |
+|=======================================================================================|
+|  No running processes found                                                           |
++---------------------------------------------------------------------------------------+
 ```
 Now you are ready to run the MgNet in Docker!
 
@@ -200,23 +130,23 @@ Merge these parts into a single image:
 cat ${MGNET_HOME}/image/MgNet-image.tar.gz.parta* > ${MGNET_HOME}/image/MgNet-image.tar.gz && rm ${MGNET_HOME}/image/MgNet-image.tar.gz.parta*
 ```
 
-### 4. Check MgNet options
+### 3. Check MgNet options
 ```
 mgnet -h
 ```
 
-### 3. Load MgNet image into Docker
+### 4. Load MgNet image into Docker
 ```
 mgnet -l
 ```
 
-### 4. Run MgNet for an example case
+### 5. Run MgNet for an example case
 ```
 mgnet -i ${MGNET_HOME}/example/example.pdb -o ${MGNET_HOME}/example/
 ```
-The ions predicted by 5 trained models will be saved into `${MGNET_HOME}/example/` as `xxxx_model_y_prediction.pdb`, where `xxxx` and `y` represents input pdb name and model number, respectively.
+The ions predicted by 5 trained models will be saved into `${MGNET_HOME}/example/` as `xxxx_model_y_prediction.pdb`, where `xxxx` and `y` represents name of the input pdb and index of the trained model, respectively.
 
-> :warning: **CUDA Toolkit: You may need to install CUDA Toolkit 10.1 if the error message contains `RuntimeError: Attempting to deserialize object on a CUDA device but torch.cuda.is_available() is False`.**
+<!-- > :warning: **CUDA Toolkit: You may need to install CUDA Toolkit 10.1 if the error message contains `RuntimeError: Attempting to deserialize object on a CUDA device but torch.cuda.is_available() is False`.** -->
 
 ### 5. Remove loaded MgNet image in Docker
 ```
