@@ -1,6 +1,6 @@
 # syntax=docker/dockerfile:1
 FROM nvidia/cuda:10.1-base-ubuntu16.04
-LABEL Description="MgNet build"
+LABEL Description="MgNet Docker build"
 
 ARG CONDA_PYTHON_VERSION=3
 ARG CONDA_DIR=/opt/conda
@@ -15,7 +15,7 @@ RUN apt-get update && \
 
 # Install miniconda
 ENV PATH $CONDA_DIR/bin:$PATH
-COPY Miniconda3-py38_4.10.3-Linux-x86_64.sh /tmp/
+COPY ./packages/Miniconda3-py38_4.10.3-Linux-x86_64.sh /tmp/
 RUN echo 'export PATH=$CONDA_DIR/bin:$PATH' > /etc/profile.d/conda.sh && \
     /bin/bash /tmp/Miniconda3-py38_4.10.3-Linux-x86_64.sh -b -p $CONDA_DIR && \
     rm -rf /tmp/*
@@ -25,21 +25,21 @@ ENV HOME /root
 SHELL ["/bin/bash", "-c"]
 
 RUN conda install -c conda-forge conda-pack
-ADD packed_conda_base.tar.gz $CONDA_DIR/
+ADD ./packages/packed_conda_base.tar.gz $CONDA_DIR/
 RUN conda-unpack
 
 # Install mamba to speed up Conda
 # RUN conda install -y mamba -c conda-forge
 # RUN mamba install -c acellera -c conda-forge htmd=1.13.10
 # Copy the YAML file into Docker image, and then update the base/root Conda environment
-# ADD environment.yml /src/
+# ADD ./packages/environment.yml /src/
 # RUN conda env update --file ./environment.yml
 # RUN mamba env update --file ./environment.yml && conda clean -tipy
 
 # Copy local packages to /src/
-COPY mgltools_x86_64Linux2_1.5.6.tar.gz /src/
-COPY vmd-1.9.4a57.bin.LINUXAMD64-CUDA102-OptiX650-OSPRay185.opengl.tar.gz /src/
-COPY MgNet.tar.gz /src/
+COPY ./packages/mgltools_x86_64Linux2_1.5.6.tar.gz /src/
+COPY ./packages/vmd-1.9.4a57.bin.LINUXAMD64-CUDA102-OptiX650-OSPRay185.opengl.tar.gz /src/
+COPY ./packages/MgNet.tar.gz /src/
 
 # Compile mgltools
 RUN cd /src && \
@@ -76,7 +76,3 @@ ENV PATH=${PATH}:/usr/local/bin:/src/MgNet/bin
 # For interactive shell
 # RUN conda init bash
 # RUN echo "conda activate base" >> /root/.bashrc
-
-
-
-

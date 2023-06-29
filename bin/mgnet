@@ -1,23 +1,22 @@
 #!/bin/bash
 
-while getopts i:o:lrbh flag
+while getopts i:o:lrh flag
 do
     case "${flag}" in
-        i) in_rna=${OPTARG};;
-        o) out_dir=${OPTARG};;
-        l) load="true";;
-        r) remove="true";;
-        b) build="true";;
-        h) help="true";;
+        i) mgnet_in_rna=${OPTARG};;
+        o) mgnet_out_dir=${OPTARG};;
+        l) mgnet_load="true";;
+        r) mgnet_remove="true";;
+        h) mgnet_help="true";;
     esac
 done
 
-if [ "${help}" != "" ]
+if [ "${mgnet_help}" != "" ]
 then
     echo "Usage: "
-    echo "load image into docker                     -> mgnet -l"
-    echo "remove loaded image                        -> mgnet -r"
-    echo "run mgent (default out_dir is current dir) -> mgnet -i in_rna [-o out_dir]"
+    echo "load MgNet container image into docker                     -> mgnet -l"
+    echo "remove loaded MgNet container image                        -> mgnet -r"
+    echo "run MgNet model (default out_dir is current dir) -> mgnet -i in_rna_pdb -o out_dir"
     exit
 fi
 
@@ -27,60 +26,41 @@ then
     exit
 fi
 
-build_name="mgnet/build:0.1"
-image_path="${MGNET_HOME}/image/MgNet-image.tar.gz"
+image_tag="vfold/mgnet:1.0.0"
 
-if [ "${build}" != "" ]
+if [ "${mgnet_load}" != "" ]
 then
-    echo "building MgNet image..."
-    cd ${MGNET_HOME}/image/packages && rm -rf MgNet.tar.gz && tar -czf MgNet.tar.gz MgNet
-    cd -
-    docker build -t ${build_name} -f ${MGNET_HOME}/image/Dockerfile ${MGNET_HOME}/image/packages/
-    docker save ${build_name} | gzip > ${image_path}
-    split -b 1G ${image_path} "${image_path}.part"
+    echo "loading MgNet container image from Docker Hub..."
+    docker pull ${image_tag}
     exit
 fi
 
-if [ "${load}" != "" ]
+if [ "${mgnet_remove}" != "" ]
 then
-    echo "loading MgNet image..."
-    docker load < ${image_path}
-    exit
-fi
-
-if [ "${remove}" != "" ]
-then
-    echo "removing MgNet image loaded into docker..."
-    if [[ "$(docker images -q ${build_name} 2> /dev/null)" != "" ]]
+    echo "removing MgNet container image in docker..."
+    if [[ "$(docker images -q ${image_tag} 2> /dev/null)" != "" ]]
     then
-        docker image rm ${build_name}
+        docker image rm ${image_tag}
     fi
     exit
 fi
 
-if [ "${out_dir}" == "" ]
-then
-    out_dir="${PWD}"
-fi
+echo "in_rna: ${mgnet_in_rna}"
+echo "out_dir: ${mgnet_out_dir}"
 
-echo "in_rna_path: ${in_rna}"
-echo "out_dir: ${out_dir}"
-
-if [ ! -f "${in_rna}" ]
+if [ ! -f "${mgnet_in_rna}" ]
 then
-    echo "in_rna -> ${in_rna} does not exist"
+    echo "in_rna -> ${mgnet_in_rna} does not exist"
     exit
 fi
-
-mkdir -p ${out_dir}
-if [ ! -d "${out_dir}" ]
+if [ ! -d "${mgnet_out_dir}" ]
 then
-    echo "out_dir -> ${out_dir} does not exist"
+    echo "out_dir -> ${mgnet_out_dir} does not exist"
     exit
 fi
 
 docker run --ipc=host -it --rm --gpus all --name=mgnet \
-       --mount type=bind,source=${in_rna},target=/tmp/${in_rna},readonly \
-       --mount type=bind,source=${out_dir},target=/mnt \
-       ${build_name} \
-       /bin/bash -c "mgnet.py -i /tmp/${in_rna} -o /mnt/ ; user_id=\$(ls -ld /mnt | awk '{print \$3}') ; chown \${user_id}:\${user_id} /mnt/*_model_*_prediction.pdb"
+       --mount type=bind,source=${mgnet_in_rna},target=/tmp/${mgnet_in_rna},readonly \
+       --mount type=bind,source=${mgnet_out_dir},target=/mnt \
+       ${image_tag} \
+       /bin/bash -c "mgnet.py -i /tmp/${mgnet_in_rna} -o /mnt/ ; user_id=\$(ls -ld /mnt | awk '{print \$3}') ; chown \${user_id}:\${user_id} /mnt/*_model_*_prediction.pdb"

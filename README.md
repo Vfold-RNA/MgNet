@@ -104,43 +104,22 @@ Now you are ready to run the MgNet in Docker!
 
 ## Run MgNet in a Docker container
 
-### 1. Clone this repository on your local machine, and set environment variable
+### 1. Clone this repository on your local machine and run setup script
 ```
 git clone https://github.com/Vfold-RNA/MgNet.git /home/${USER}/MgNet
 ```
 ```
-echo "export MGNET_HOME=/home/${USER}/MgNet/" >> /home/${USER}/.bashrc && \
-echo "export PATH=/home/${USER}/MgNet/bin:${PATH}" >> /home/${USER}/.bashrc && \
-source /home/${USER}/.bashrc
+cd /home/${USER}/MgNet && ./setup
 ```
 
-### 2. Download MgNet docker image parts and merge them into a single image
-Download parts of the released image and checksum.txt:
-```
-for n in a b c d ; do wget https://github.com/Vfold-RNA/MgNet/releases/download/stable/MgNet-image.tar.gz.parta${n} -O ${MGNET_HOME}/image/MgNet-image.tar.gz.parta${n} ; done
-wget https://github.com/Vfold-RNA/MgNet/releases/download/stable/checksum.txt -O ${MGNET_HOME}/image/checksum.txt
-```
-Check the integrity of the files:
-```
-cd ${MGNET_HOME}/image/
-sha256sum --check checksum.txt
-```
-Merge these parts into a single image:
-```
-cat ${MGNET_HOME}/image/MgNet-image.tar.gz.parta* > ${MGNET_HOME}/image/MgNet-image.tar.gz && rm ${MGNET_HOME}/image/MgNet-image.tar.gz.parta*
-```
+### 2. Using MgNet
 
-### 3. Check MgNet options
+#### 2.1 Check MgNet options
 ```
 mgnet -h
 ```
 
-### 4. Load MgNet image into Docker
-```
-mgnet -l
-```
-
-### 5. Run MgNet for an example case
+#### 2.2 Run MgNet for an example case
 ```
 mgnet -i ${MGNET_HOME}/example/example.pdb -o ${MGNET_HOME}/example/
 ```
@@ -148,7 +127,12 @@ The ions predicted by 5 trained models will be saved into `${MGNET_HOME}/example
 
 <!-- > :warning: **CUDA Toolkit: You may need to install CUDA Toolkit 10.1 if the error message contains `RuntimeError: Attempting to deserialize object on a CUDA device but torch.cuda.is_available() is False`.** -->
 
-### 5. Remove loaded MgNet image in Docker
+#### 2.3 Load MgNet container image into Docker from Docker Hub
+```
+mgnet -l
+```
+
+#### 2.4 Remove loaded MgNet image in Docker
 ```
 mgnet -r
 ```

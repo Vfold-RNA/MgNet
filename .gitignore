@@ -2,13 +2,13 @@
 
 __pycache__/
 
-image/packages/environment_all.yml
-image/packages/environment_from_history.yml
-image/packages/mgltools_x86_64Linux2_1.5.6.tar.gz
-image/packages/MgNet.tar.gz
-image/packages/Miniconda3-py38_4.10.3-Linux-x86_64.sh
-image/packages/packed_conda_base.tar.gz
-image/packages/vmd-1.9.4a57.bin.LINUXAMD64-CUDA102-OptiX650-OSPRay185.opengl.tar.gz
-image/MgNet-image.tar.gz
-image/MgNet-image.tar.gz.part*
-image/checksum.txt
+docker/packages/environment_all.yml
+docker/packages/environment_from_history.yml
+docker/packages/mgltools_x86_64Linux2_1.5.6.tar.gz
+docker/packages/MgNet.tar.gz
+docker/packages/Miniconda3-py38_4.10.3-Linux-x86_64.sh
+docker/packages/packed_conda_base.tar.gz
+docker/packages/vmd-1.9.4a57.bin.LINUXAMD64-CUDA102-OptiX650-OSPRay185.opengl.tar.gz
+
+docker/images
+docker/*.log
