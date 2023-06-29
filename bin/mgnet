@@ -60,7 +60,7 @@ then
 fi
 
 docker run --ipc=host -it --rm --gpus all --name=mgnet \
-       --mount type=bind,source=${mgnet_in_rna},target=/tmp/${mgnet_in_rna},readonly \
-       --mount type=bind,source=${mgnet_out_dir},target=/mnt \
+       --mount type=bind,source=$(realpath ${mgnet_in_rna}),target=/tmp/in_rna.pdb,readonly \
+       --mount type=bind,source=$(realpath ${mgnet_out_dir}),target=/mnt \
        ${image_tag} \
-       /bin/bash -c "mgnet.py -i /tmp/${mgnet_in_rna} -o /mnt/ ; user_id=\$(ls -ld /mnt | awk '{print \$3}') ; chown \${user_id}:\${user_id} /mnt/*_model_*_prediction.pdb"
+       /bin/bash -c "mgnet.py -i /tmp/in_rna.pdb -o /mnt/ ; user_id=\$(ls -ld /mnt | awk '{print \$3}') ; chown \${user_id}:\${user_id} /mnt/*_model_*_prediction.pdb"
