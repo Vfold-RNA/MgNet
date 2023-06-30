@@ -111,6 +111,10 @@ git clone https://github.com/Vfold-RNA/MgNet.git /home/${USER}/MgNet
 ```
 cd /home/${USER}/MgNet && ./setup
 ```
+and finally source the .bashrc
+```
+source /home/${USER}/.bashrc
+```
 
 ### 2. Using MgNet
 
@@ -127,7 +131,7 @@ The ions predicted by 5 trained models will be saved into `${MGNET_HOME}/example
 
 <!-- > :warning: **CUDA Toolkit: You may need to install CUDA Toolkit 10.1 if the error message contains `RuntimeError: Attempting to deserialize object on a CUDA device but torch.cuda.is_available() is False`.** -->
 
-#### 2.3 Load MgNet container image into Docker from Docker Hub
+#### 2.3 Pull MgNet container image from Docker Hub
 ```
 mgnet -l
 ```

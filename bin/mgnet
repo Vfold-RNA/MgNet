@@ -14,7 +14,7 @@ done
 if [ "${mgnet_help}" != "" ]
 then
     echo "Usage: "
-    echo "load MgNet container image into docker                     -> mgnet -l"
+    echo "pull MgNet container image from Docker Hub                 -> mgnet -l"
     echo "remove loaded MgNet container image                        -> mgnet -r"
     echo "run MgNet model (default out_dir is current dir) -> mgnet -i in_rna_pdb -o out_dir"
     exit
@@ -30,7 +30,7 @@ image_tag="vfold/mgnet:1.0.0"
 
 if [ "${mgnet_load}" != "" ]
 then
-    echo "loading MgNet container image from Docker Hub..."
+    echo "pulling MgNet container image from Docker Hub..."
     docker pull ${image_tag}
     exit
 fi
@@ -59,8 +59,12 @@ then
     exit
 fi
 
+mgnet_in_rna_full_path=$(realpath ${mgnet_in_rna})
+mgnet_out_dir_full_path=$(realpath ${mgnet_out_dir})
+mgnet_in_rna_file_name=$(basename ${mgnet_in_rna})
+
 docker run --ipc=host -it --rm --gpus all --name=mgnet \
-       --mount type=bind,source=$(realpath ${mgnet_in_rna}),target=/tmp/in_rna.pdb,readonly \
-       --mount type=bind,source=$(realpath ${mgnet_out_dir}),target=/mnt \
+       --mount type=bind,source=${mgnet_in_rna_full_path},target=/tmp/${mgnet_in_rna_file_name},readonly \
+       --mount type=bind,source=${mgnet_out_dir_full_path},target=/mnt \
        ${image_tag} \
-       /bin/bash -c "mgnet.py -i /tmp/in_rna.pdb -o /mnt/ ; user_id=\$(ls -ld /mnt | awk '{print \$3}') ; chown \${user_id}:\${user_id} /mnt/*_model_*_prediction.pdb"
+       /bin/bash -c "mgnet.py -i /tmp/${mgnet_in_rna_file_name} -o /mnt/ ; user_id=\$(ls -ld /mnt | awk '{print \$3}') ; chown \${user_id}:\${user_id} /mnt/*_model_*_prediction.pdb"
