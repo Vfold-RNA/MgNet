@@ -36,7 +36,7 @@ fi
 # set environment variables (MGNET_HOME and PATH)
 echo -e "$CNT - Set environment variables to .bashrc (MGNET_HOME and PATH)"
 echo "export MGNET_HOME=${current_dir}" >> /home/${USER}/.bashrc && \
-echo "export PATH=${current_dir}/bin:${PATH}" >> /home/${USER}/.bashrc
+echo "export PATH=${current_dir}/bin:\${PATH}" >> /home/${USER}/.bashrc
 
 # Pull image from Docker Hub
 echo -e "$CNT - Pulling image from Docker Hub..."
