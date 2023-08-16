@@ -85,7 +85,7 @@ sudo systemctl restart docker
 
 #### 3.3 A working setup can be tested by running a base CUDA container
 ```
-docker run -it --rm --gpus all nvidia/cuda:10.1-base-ubuntu18.04 nvidia-smi
+docker run -it --rm --gpus all ubuntu nvidia-smi
 ```
 This should result in a console output similar as the one shown below:
 ```
