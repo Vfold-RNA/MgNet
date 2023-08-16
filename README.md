@@ -74,7 +74,7 @@ you should see similar output as the following:
 
 #### 3.1 Setup the package repository and the GPG key
 
-See Section [Setting up NVIDIA Container Toolkit](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/install-guide.html#setting-up-nvidia-container-toolkit) to setup the package repo and the GPG key.
+See the first step in Section [Setting up NVIDIA Container Toolkit](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/install-guide.html#setting-up-nvidia-container-toolkit) to setup the package repo and the GPG key.
 
 #### 3.2 Install NVIDIA-container-runtime
 ```
