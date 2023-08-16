@@ -23,8 +23,9 @@ sudo groupadd docker
 Add your user to the docker group:
 ```
 sudo usermod -aG docker $USER
+newgrp docker
 ```
-> :point_right: Note: **You need to start a new session to update the groups.**
+> :point_right: Note: **You may need to start a new session to update the groups.**
 
 #### 1.3 Verify that Docker Engine is installed correctly
 ```
@@ -69,11 +70,20 @@ you should see similar output as the following:
 
 ### 3. Setup Docker to access an NVIDIA GPU
 
-#### 3.1 Install NVIDIA-container-runtime
+> :point_right: Please also refer to official [install guide 1](https://docs.docker.com/config/containers/resource_constraints/#access-an-nvidia-gpu) and [install guide 2](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/install-guide.html#setting-up-nvidia-container-toolkit). And remember to configure the Docker daemon to recognize the NVIDIA Container Runtime and then restart the Docker daemon.
 
-> :point_right: Please refer to official [install guide 1](https://docs.docker.com/config/containers/resource_constraints/#access-an-nvidia-gpu) and [install guide 2](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/install-guide.html#setting-up-nvidia-container-toolkit). And remember to configure the Docker daemon to recognize the NVIDIA Container Runtime and then restart the Docker daemon.
+#### 3.1 Setup the package repository and the GPG key
 
-#### 3.2 A working setup can be tested by running a base CUDA container
+See Section [Setting up NVIDIA Container Toolkit](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/install-guide.html#setting-up-nvidia-container-toolkit) to setup the package repo and the GPG key.
+
+#### 3.2 Install NVIDIA-container-runtime
+```
+sudo apt-get update
+sudo apt-get install nvidia-container-runtime
+sudo systemctl restart docker
+```
+
+#### 3.3 A working setup can be tested by running a base CUDA container
 ```
 docker run -it --rm --gpus all nvidia/cuda:10.1-base-ubuntu18.04 nvidia-smi
 ```
