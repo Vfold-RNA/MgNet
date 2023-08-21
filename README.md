@@ -6,7 +6,7 @@ The following are tested system settings, newer hardware/software could also wor
 * GPU (NVIDIA GeForce GTX 1080)
 * GNU/Linux x86_64 (Ubuntu Server 22.04.2 LTS kernel 5.15.0-75-generic)
 * Docker (Docker version 24.0.2, build cb74dfc)
-* NVIDIA Driver (Version 530.41.03, your NVIDIA Driver version should at least support cuda 10.1)
+* NVIDIA Driver (Version 530.41.03, your NVIDIA Driver version should at least support CUDA 10.1)
 
 ## Installation
 
@@ -139,7 +139,6 @@ mgnet -i ${MGNET_HOME}/example/example.pdb -o ${MGNET_HOME}/example/
 ```
 The ions predicted by 5 trained models will be saved into `${MGNET_HOME}/example/` as `xxxx_model_y_prediction.pdb`, where `xxxx` and `y` represents name of the input pdb and index of the trained model, respectively.
 
-<!-- > :warning: **CUDA Toolkit: You may need to install CUDA Toolkit 10.1 if the error message contains `RuntimeError: Attempting to deserialize object on a CUDA device but torch.cuda.is_available() is False`.** -->
 
 #### 2.3 Pull MgNet container image from Docker Hub
 ```
