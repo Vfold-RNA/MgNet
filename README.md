@@ -116,14 +116,10 @@ Now you are ready to run the MgNet in Docker!
 
 ### 1. Clone this repository on your local machine and run setup script
 ```
-git clone https://github.com/Vfold-RNA/MgNet.git /home/${USER}/MgNet
+git clone https://github.com/Vfold-RNA/MgNet.git ${HOME}/MgNet
 ```
 ```
-cd /home/${USER}/MgNet && ./setup
-```
-and finally source the .bashrc
-```
-source /home/${USER}/.bashrc
+cd ${HOME}/MgNet && ./setup
 ```
 
 ### 2. Using MgNet
@@ -135,7 +131,7 @@ mgnet -h
 
 #### 2.2 Run MgNet for an example case
 ```
-mgnet -i ${MGNET_HOME}/example/example.pdb -o ${MGNET_HOME}/example/
+mgnet -i ${HOME}/MgNet/example/example.pdb -o ${HOME}/MgNet/example/
 ```
 The ions predicted by 5 trained models will be saved into `${MGNET_HOME}/example/` as `xxxx_model_y_prediction.pdb`, where `xxxx` and `y` represents name of the input pdb and index of the trained model, respectively.
 
