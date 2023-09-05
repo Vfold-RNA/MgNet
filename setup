@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 
-# The follwoing will attempt to install all needed packages
-# This is a quick and dirty script with some error checking
+# The follwoing will attempt to compile and install MgNet
 # IMPORTANT - This script is meant to run on a Linux machine
 
 # set some colors
@@ -11,7 +10,6 @@ CER="[\e[1;31mERROR\e[0m]"
 CAT="[\e[1;37mATTENTION\e[0m]"
 CWR="[\e[1;35mWARNING\e[0m]"
 CAC="[\e[1;33mACTION\e[0m]"
-# SETUPLOG="setup.log"
 
 # set some expectations for the user
 echo -e "$CNT - You are about to execute a script that would attempt to setup MgNet."
@@ -23,24 +21,24 @@ if [ ! -d "${current_dir}" ]; then
     exit
 fi
 
+# Pulling the MgNet image
+echo -e "$CNT - Pulling MgNet from Docker Hub..."
+docker pull vfold/mgnet:1.0.0
+
 # give the user an option to exit setup
-echo -e "$CAT - MgNet will be installed in the ${current_dir}, please do not move the MgNet folder after the setup!"
+install_path=/usr/local/bin/
+echo -e "$CAT - MgNet scripts will be installed to the ${install_path}"
 read -rep $'[\e[1;33mACTION\e[0m] - Would you like to continue with the setup (y,n) ' CONTINST
 if [[ $CONTINST == "Y" || $CONTINST == "y" ]]; then
     echo -e "$CNT - Setup starting..."
 else
-    echo -e "$CNT - This script will now exit, no changes were made to your system."
+    echo -e "$CNT - You need to manually add the executables (mgnet,mgnet-env,mgnet-run) to your PATH."
     exit
 fi
 
-# set environment variables (MGNET_HOME and PATH)
-echo -e "$CNT - Set environment variables to .bashrc (MGNET_HOME and PATH)"
-echo "export MGNET_HOME=${current_dir}" >> /home/${USER}/.bashrc && \
-echo "export PATH=${current_dir}/bin:\${PATH}" >> /home/${USER}/.bashrc
-
-# Pull image from Docker Hub
-echo -e "$CNT - Pulling image from Docker Hub..."
-docker pull vfold/mgnet:1.0.0
+# install mgnet to path
+echo -e "$CNT - Installing to ${install_path}"
+sudo cp -a ./bin/mgnet ./bin/mgnet-env ./bin/mgnet-run ${install_path}
 
 # Script is done
-echo -e "$CNT - Setup has completed!"
+echo -e "$COK - Setup has completed!"

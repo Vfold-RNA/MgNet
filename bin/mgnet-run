@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+
+image_tag="vfold/mgnet:1.0.0"
+
+if [ ! -f "$1" ]
+then
+    echo "File $1 does not exist."
+    exit
+fi
+echo "MgNet container started in the background."
+echo "To list the ids or names of the running containers, use:"
+echo "-> docker ps -a"
+echo "To kill a running container, use:"
+echo "-> docker kill CONTAINER_ID or docker kill CONTAINER_NAME"
+docker run --ipc=shareable --rm -itd \
+       --mount type=bind,source=$(realpath $(pwd)),target=/mnt \
+       --user $(id -u):$(id -g) \
+       ${image_tag} \
+       /bin/bash "$1"
