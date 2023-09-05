@@ -57,7 +57,7 @@ mgnet_in_rna_full_path=$(realpath ${mgnet_in_rna})
 mgnet_out_dir_full_path=$(realpath ${mgnet_out_dir})
 mgnet_in_rna_file_name=$(basename ${mgnet_in_rna})
 
-docker run --ipc=shareable -it --rm --gpus all --name=mgnet \
+docker run --ipc=host -it --rm --gpus all --name=mgnet \
        --mount type=bind,source=${mgnet_in_rna_full_path},target=/tmp/${mgnet_in_rna_file_name},readonly \
        --mount type=bind,source=${mgnet_out_dir_full_path},target=/mnt \
        --user $(id -u):$(id -g) \

@@ -3,7 +3,7 @@
 image_tag="vfold/mgnet:1.0.0"
 
 echo "Starting ${image_tag} container in current dir -> $(pwd)"
-docker run --ipc=shareable -it --rm --gpus all \
+docker run --ipc=host -it --rm --gpus all \
        --mount type=bind,source=$(realpath $(pwd)),target=/mnt \
        --user $(id -u):$(id -g) \
        ${image_tag}
