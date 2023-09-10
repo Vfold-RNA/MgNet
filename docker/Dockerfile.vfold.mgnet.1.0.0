@@ -1,6 +1,6 @@
 # syntax=docker/dockerfile:1
 FROM nvidia/cuda:10.1-base-ubuntu16.04
-LABEL Description="MgNet Docker build"
+LABEL Description="MgNet:1.0.0 Docker build"
 
 ARG CONDA_PYTHON_VERSION=3
 ARG CONDA_DIR=/opt/conda

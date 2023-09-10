@@ -7,7 +7,7 @@ then
     echo "File $1 does not exist."
     exit
 fi
-echo "MgNet container started in the background."
+echo "One ${image_tag} container started in the background."
 echo "To list the ids or names of the running containers, use:"
 echo "-> docker ps -a"
 echo "To kill a running container, use:"
