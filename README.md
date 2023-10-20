@@ -133,7 +133,7 @@ mgnet -h
 ```
 mgnet -i ${HOME}/MgNet/example/example.pdb -o ${HOME}/MgNet/example/
 ```
-The ions predicted by 5 trained models will be saved into `${MGNET_HOME}/example/` as `xxxx_model_y_prediction.pdb`, where `xxxx` and `y` represents name of the input pdb and index of the trained model, respectively.
+The ions predicted by 5 trained models will be saved into `${HOME}/MgNet/example/` as `xxxx_model_y_prediction.pdb`, where `xxxx` and `y` represents name of the input pdb and index of the trained model, respectively.
 
 
 #### 2.3 Pull MgNet container image from Docker Hub
