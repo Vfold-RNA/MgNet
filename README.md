@@ -25,7 +25,7 @@ Add your user to the docker group:
 sudo usermod -aG docker $USER
 newgrp docker
 ```
-> :point_right: Note: **You may need to start a new session to update the groups.**
+> :point_right: **You may need to start a new session to update the groups.**
 
 #### 1.3 Verify that Docker Engine is installed correctly
 ```
