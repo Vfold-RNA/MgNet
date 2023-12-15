@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-image_tag="vfold/mgnet:1.0.0"
+image_tag="vfold/mgnet:1.0.1"
 
 echo "Starting ${image_tag} container in current dir -> $(pwd)"
 docker run --ipc=host -it --rm --gpus all \

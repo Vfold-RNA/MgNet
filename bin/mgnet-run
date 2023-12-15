@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-image_tag="vfold/mgnet:1.0.0"
+image_tag="vfold/mgnet:1.0.1"
 
 if [ ! -f "$1" ]
 then

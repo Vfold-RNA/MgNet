@@ -23,7 +23,7 @@ fi
 
 # Pulling the MgNet image
 echo -e "$CNT - Pulling MgNet from Docker Hub..."
-docker pull vfold/mgnet:1.0.0
+docker pull vfold/mgnet:1.0.1
 
 # give the user an option to exit setup
 install_path=/usr/local/bin/
