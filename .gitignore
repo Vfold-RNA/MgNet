@@ -2,13 +2,25 @@
 
 __pycache__/
 
-docker/packages/environment_all.yml
-docker/packages/environment_from_history.yml
-docker/packages/mgltools_x86_64Linux2_1.5.6.tar.gz
-docker/packages/MgNet.tar.gz
-docker/packages/Miniconda3-py38_4.10.3-Linux-x86_64.sh
-docker/packages/packed_conda_base.tar.gz
-docker/packages/vmd-1.9.4a57.bin.LINUXAMD64-CUDA102-OptiX650-OSPRay185.opengl.tar.gz
+docker/old-github-version/
 
-docker/images
-docker/*.log
+docker/1.0.0/packages/environment_all.yml
+docker/1.0.0/packages/environment_from_history.yml
+docker/1.0.0/packages/mgltools_x86_64Linux2_1.5.6.tar.gz
+docker/1.0.0/packages/MgNet.tar.gz
+docker/1.0.0/packages/Miniconda3-py38_4.10.3-Linux-x86_64.sh
+docker/1.0.0/packages/packed_conda_base.tar.gz
+docker/1.0.0/packages/vmd-1.9.4a57.bin.LINUXAMD64-CUDA102-OptiX650-OSPRay185.opengl.tar.gz
+docker/1.0.0/images
+docker/1.0.0/*.log
+
+docker/1.0.1/packages/environment_all.yml
+docker/1.0.1/packages/environment_from_history.yml
+docker/1.0.1/packages/mgltools_x86_64Linux2_1.5.6.tar.gz
+docker/1.0.1/packages/MgNet.tar.gz
+docker/1.0.1/packages/Miniconda3-py38_4.10.3-Linux-x86_64.sh
+docker/1.0.1/packages/packed_conda_base.tar.gz
+docker/1.0.1/packages/vmd-1.9.4a57.bin.LINUXAMD64-CUDA102-OptiX650-OSPRay185.opengl.tar.gz
+docker/1.0.1/images
+docker/1.0.1/*.log
+

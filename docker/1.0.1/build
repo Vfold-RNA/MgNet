@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+
+namespace=$1
+repository=$2
+tag=$3
+[[ -z "${namespace}" ]] && echo "please provide namespace" && exit
+[[ -z "${repository}" ]] && echo "please provide repository" && exit
+[[ -z "${tag}" ]] && echo "please provide tag" && exit
+dockerfile_path=$(realpath Dockerfile.${namespace}.${repository}.${tag})
+
+if [ ! -f "${dockerfile_path}" ]; then
+    echo "${dockerfile_path} does not exist"
+    exit
+fi
+
+docker build -f ${dockerfile_path} -t ${namespace}/${repository}:${tag} . > ${namespace}.${repository}.${tag}.log 2>&1
+docker save ${namespace}/${repository}:${tag} | gzip > ./images/${namespace}.${repository}.${tag}.tar.gz
+#docker rmi ${namespace}/${repository}:${tag}
